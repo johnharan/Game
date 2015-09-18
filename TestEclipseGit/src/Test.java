@@ -1,5 +1,10 @@
 
 public class Test {
+	/*
+	exercise from codingbat.com
+ 	Given 2 positive int values, return the larger value that is in the range 10..20 inclusive, 
+ 	or return 0 if neither is in that range.
+	*/
 
 	public Test(){
 		long startTime = System.nanoTime();
