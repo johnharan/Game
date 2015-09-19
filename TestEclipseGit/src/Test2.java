@@ -9,6 +9,8 @@ public class Test2 {
 		System.out.println("Between 1 and 3 'e's ?: " + stringE("hello"));
 		
 		System.out.println("Same last digit ?: " + lastDigit(23,1643));
+		
+		System.out.println("Last 3 chars to upper: " + endUp("hello"));
 	}
 	
 	public static void main(String[] args) {
@@ -24,6 +26,13 @@ public class Test2 {
 
   	public boolean lastDigit(int a, int b) {
   	  return (Math.abs(a % 10) == Math.abs(b % 10)) ? true:false;
+  	}
+  	
+  	public String endUp(String str) { // turns last three characters of string to uppercase
+  	  if(str.length() <= 3){return str.toUpperCase();}
+  	  else{
+  	     return str.substring(0,str.length()-3) + str.substring(str.length()-3).toUpperCase();
+  	  }
   	}
 
 
