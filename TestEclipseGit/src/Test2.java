@@ -11,7 +11,20 @@ public class Test2 {
 		System.out.println("Same last digit ?: " + lastDigit(23,1643));
 		
 		System.out.println("Last 3 chars to upper: " + endUp("hello"));
+		
+		System.out.println(everyNth("racecar", 2));
 	}
+
+	public String everyNth(String str, int n) {
+		  String result = "";
+		  
+		  // Look at every nth char
+		  for (int i=0; i<str.length(); i = i + n) {
+		    result = result + str.charAt(i);
+		  }
+		  return result;
+	}
+	
 	
 	public static void main(String[] args) {
 		new Test2();
@@ -34,6 +47,9 @@ public class Test2 {
   	     return str.substring(0,str.length()-3) + str.substring(str.length()-3).toUpperCase();
   	  }
   	}
+  	
+  
+
 
 
  }
