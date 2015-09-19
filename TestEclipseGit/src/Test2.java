@@ -7,6 +7,8 @@ public class Test2 {
 
 	public Test2(){
 		System.out.println("Between 1 and 3 'e's ?: " + stringE("hello"));
+		
+		System.out.println("Same last digit ?: " + lastDigit(23,1643));
 	}
 	
 	public static void main(String[] args) {
@@ -18,6 +20,10 @@ public class Test2 {
   
   		if(count >= 1 && count <= 3){return true;}
   		return false;
+  	}
+
+  	public boolean lastDigit(int a, int b) {
+  	  return (Math.abs(a % 10) == Math.abs(b % 10)) ? true:false;
   	}
 
 
