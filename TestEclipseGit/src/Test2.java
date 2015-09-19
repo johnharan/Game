@@ -12,12 +12,12 @@ public class Test2 {
 		new Test2();
 	}
 
-	public boolean stringE(String str) {
-  int count = str.length() - str.replace("e", "").length();
+  	public boolean stringE(String str) {
+  		int count = str.length() - str.replace("e", "").length();
   
-  if(count >= 1 && count <= 3){return true;}
-  return false;
-  }
+  		if(count >= 1 && count <= 3){return true;}
+  		return false;
+  	}
 
 
  }
