@@ -12,7 +12,7 @@ public class Test2 {
 		
 		System.out.println("Last 3 chars to upper: " + endUp("hello"));
 		
-		System.out.println(everyNth("racecar", 2));
+		System.out.println("Every N'th: " + everyNth("racecar", 2));
 	}
 
 	public String everyNth(String str, int n) {
