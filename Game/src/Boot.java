@@ -24,10 +24,22 @@ public class Boot {
 		glMatrixMode(GL_MODELVIEW);
 		
 		while(!Display.isCloseRequested()){
+			int sides = 40; // number of lines to draw
+			double radius = 200;
 			
-			glBegin(GL_LINES);
-			glVertex2f(20,20);
-			glVertex2f(200,200);
+			glBegin(GL_LINE_LOOP);
+				
+			for (int i = 0; i < 360; i += 360 / sides)
+			{
+			    double angle = i * 3.1415926535897932384626433832795 / 180; // increment angle by i each iteration
+			    glVertex2d(640 + Math.cos(angle) * radius, 360 + Math.sin(angle) * radius);
+			}
+			
+			glEnd();
+			
+			glBegin(GL_POINTS);
+			glVertex2d(640,360);
+			
 			glEnd();
 			
 			Display.update();
