@@ -1,46 +1,29 @@
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.opengl.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
+import static helpers.Artist.*;
 
 public class Boot {
     
 	private static final int WIDTH = 1280, HEIGHT = 720;
 	
 	public Boot() {
-		Display.setTitle("Game");
+		beginSession();
 		
-		try {
-			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
-			Display.create();
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-		
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0,WIDTH,HEIGHT,0,1,-1);
-		glMatrixMode(GL_MODELVIEW);
-		
+
+		Texture paddle = loadTexture("res/paddle.png","PNG");
+	
 		while(!Display.isCloseRequested()){
-			int sides = 40; // number of lines to draw
-			double radius = 200;
 			
-			glBegin(GL_LINE_LOOP);
-				
-			for (int i = 0; i < 360; i += 360 / sides)
-			{
-			    double angle = i * 3.1415926535897932384626433832795 / 180; // increment angle by i each iteration
-			    glVertex2d(640 + Math.cos(angle) * radius, 360 + Math.sin(angle) * radius);
-			}
 			
-			glEnd();
+			drawQuadTexture(paddle,250,250,64,128);
+
+			//drawQuad(600,300,200,200);
 			
-			glBegin(GL_POINTS);
-			glVertex2d(640,360);
-			
-			glEnd();
+			//drawCircle(400,500,20,40);
 			
 			Display.update();
 			Display.sync(60);
