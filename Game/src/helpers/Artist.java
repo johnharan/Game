@@ -85,6 +85,7 @@ public class Artist {
 		    glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
 		}
 		glEnd();
+		glLoadIdentity();
 	}
 	
 	public static void drawQuadTexture(Texture text, float x, float y, float width, float height){
