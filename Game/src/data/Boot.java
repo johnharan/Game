@@ -18,7 +18,8 @@ public class Boot {
 	private long currentTime,lastTime;
 	private static long delta;
 	private int framesInLastSecond = 0,framesInCurrentSecond = 0;
-
+    private static Paddle paddleLeft;
+    private static Paddle paddleRight;
 	
 	
 	public Boot() {
@@ -26,9 +27,10 @@ public class Boot {
 		
 
 		Texture paddle = loadTexture("res/paddle.png","PNG");
-			
 		
-		Ball pong = new Ball(15, 10, 0.1f, 640, 360);
+		paddleLeft = new Paddle(paddle, 100, 278, 64, 128);
+		paddleRight = new Paddle(paddle, 1136, 277, 64, 128);
+		Ball pong = new Ball(20, 15, 0.4f, 640, 360);
 		//pong.update();
 		//pong.draw();
 		
@@ -46,11 +48,13 @@ public class Boot {
 			if(delta >= 20){
 				delta = 20;
 			}
+		
 			
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
-			drawQuadTexture(paddle, 100, 300, 64, 128);
+			paddleLeft.draw();
+			paddleRight.draw();
 			
 			pong.update();
 			pong.draw();
@@ -63,7 +67,7 @@ public class Boot {
 			Display.update();
 			Display.sync(60);
 		
-			// //////////////////FPS///////////////////////// 
+			/////////////////////FPS///////////////////////// 
 			long currentTimeT = System.currentTimeMillis();
 			if (currentTimeT > nextSecond) {
 				nextSecond += 1000;
@@ -81,9 +85,17 @@ public class Boot {
 	}
 
 
+	public static Paddle getPaddleLeft() {
+		return paddleLeft;
+	}
+
+	public static Paddle getPaddleRight() {
+		return paddleRight;
+	}
+
 	public static void main(String[] args) {
 		new Boot();
-
+        
 	}
 
 	public static Long getDelta(){

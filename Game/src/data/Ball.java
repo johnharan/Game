@@ -3,6 +3,7 @@ package data;
 import static helpers.Artist.drawCircle;
 
 
+
 public class Ball {
 
 	private int radius,sides;
@@ -34,19 +35,21 @@ public class Ball {
 	}
 	
 	public void findDirection(){
-		if(x >= Boot.WIDTH){
+		if(x + 25 >= Boot.WIDTH || (x+19 >= Boot.getPaddleRight().getX() && y+18 > Boot.getPaddleRight().getY() && y-17 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())){
 			direction[0] = -1;
-		}else if(x <= 0){
+		}
+		if(x - 17 <= 0 || (x-25 <= Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth() && y+19 > Boot.getPaddleLeft().getY() && y-21 < Boot.getPaddleLeft().getY() + Boot.getPaddleLeft().getHeight() )){
 			direction[0] = 1;
 		}
 		
 		if(y >= Boot.HEIGHT){
 			direction[1] = -1;
-		}else if(y <= 0){
+		}
+		if(y <= 0){
 			direction[1] = 1;
 		}
 		
-		
+	
 	}
 	
 	public boolean isAlive(){
