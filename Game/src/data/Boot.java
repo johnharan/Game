@@ -61,6 +61,7 @@ public class Boot {
 			
 			paddleLeft.update();
 			paddleLeft.draw();
+			paddleRight.updateAI(pong);
 			paddleRight.draw();
 			
 			pong.update();
@@ -84,7 +85,7 @@ public class Boot {
 			framesInCurrentSecond++;
 			////////////////////////////////////////////////
 			
-			System.out.println("Delta: " + delta + ",FPS: " + framesInLastSecond);
+			//System.out.println("Delta: " + delta + ",FPS: " + framesInLastSecond);
 		}
 		
 		Display.destroy();

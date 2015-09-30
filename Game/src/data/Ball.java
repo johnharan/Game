@@ -41,9 +41,9 @@ public class Ball {
 		int randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1));
 		int lastY = randomNum == 1? 1:-1;
 		
-		System.out.println("x " + direction[0] + ",y " + direction[1] + ",rand " + randomNum);
+		//System.out.println("x " + direction[0] + ",y " + direction[1] + ",rand " + randomNum);
 		
-		if(direction[1] != 0){
+		if(direction[1] != 0){ // gets the last direction - ensures ball follows correct path
 			lastY = direction[1];
 		}
 		
