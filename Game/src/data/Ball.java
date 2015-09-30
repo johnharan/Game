@@ -2,6 +2,8 @@ package data;
 
 import static helpers.Artist.drawCircle;
 
+import org.lwjgl.opengl.Display;
+
 
 
 public class Ball {
@@ -10,6 +12,7 @@ public class Ball {
 	private float speed,x,y;
 	private boolean alive;
 	private int[] direction;
+
 	
 	
 	public Ball(int radius, int sides, float speed, float x, float y) {
@@ -35,14 +38,34 @@ public class Ball {
 	}
 	
 	public void findDirection(){
-		if(x + 25 >= Boot.WIDTH || (x+19 >= Boot.getPaddleRight().getX() && y+18 > Boot.getPaddleRight().getY() && y-17 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())){
+		int randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1));
+		int lastY = randomNum == 1? 1:-1;
+		
+		System.out.println("x " + direction[0] + ",y " + direction[1] + ",rand " + randomNum);
+		
+		if(direction[1] != 0){
+			lastY = direction[1];
+		}
+		
+		if(x + 25 >= Display.getWidth() || (x+19 >= Boot.getPaddleRight().getX() && y+18 > Boot.getPaddleRight().getY() && y-17 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())){
 			direction[0] = -1;
+			if(lastY <= -1){
+				direction[1] -= 1;
+			}else{
+				direction[1] += 1;
+			}
+			
 		}
 		if(x - 17 <= 0 || (x-25 <= Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth() && y+19 > Boot.getPaddleLeft().getY() && y-21 < Boot.getPaddleLeft().getY() + Boot.getPaddleLeft().getHeight() )){
 			direction[0] = 1;
+			if(lastY <= -1){
+				direction[1] -= 1;
+			}else{
+				direction[1] += 1;
+			}
 		}
 		
-		if(y >= Boot.HEIGHT){
+		if(y >= Display.getHeight()){
 			direction[1] = -1;
 		}
 		if(y <= 0){

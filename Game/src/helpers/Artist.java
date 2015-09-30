@@ -41,25 +41,29 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class Artist {
 
-	public static final int WIDTH = 1280, HEIGHT = 720;
 	
 	public static void beginSession(){
 		Display.setTitle("Game");
 		
 		try {
-			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
+			//Display.getDesktopDisplayMode();
+			Display.setFullscreen(true);
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
 		
+
+		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0,WIDTH,HEIGHT,0,1,-1);
+		glOrtho(0,Display.getWidth(),Display.getHeight(),0,1,-1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D); 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+		
 	}
 	
 	public static void drawQuad(float x, float y, float width, float height){

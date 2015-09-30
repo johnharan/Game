@@ -1,5 +1,9 @@
 package data;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -12,7 +16,7 @@ import static data.Ball.*;
 
 public class Boot {
     
-	static final int WIDTH = 1280,HEIGHT = 720, MAX_FRAMES_SKIPPED = 5;
+	static final int WIDTH = Display.getWidth(),HEIGHT = Display.getHeight(), MAX_FRAMES_SKIPPED = 5;
 	static final float MS_PER_UPDATE = 16.6f;
 	
 	private long currentTime,lastTime;
@@ -20,6 +24,7 @@ public class Boot {
 	private int framesInLastSecond = 0,framesInCurrentSecond = 0;
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
+    private static boolean shutdown = false;
 	
 	
 	public Boot() {
@@ -28,9 +33,9 @@ public class Boot {
 
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		
-		paddleLeft = new Paddle(paddle, 100, 278, 64, 128);
-		paddleRight = new Paddle(paddle, 1136, 277, 64, 128);
-		Ball pong = new Ball(20, 15, 0.4f, 640, 360);
+		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
+		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
+		Ball pong = new Ball(20, 15, 1.7f, 640, 360);
 		//pong.update();
 		//pong.draw();
 		
@@ -38,9 +43,10 @@ public class Boot {
 		
 		
 		
+		
 		long nextSecond = System.currentTimeMillis() + 1000;
 		lastTime = System.nanoTime();
-		while(!Display.isCloseRequested()){
+		while(!shutdown){
 			currentTime = System.nanoTime();
 			delta = (currentTime - lastTime) / 1000000;
 			lastTime = currentTime;	
@@ -48,11 +54,12 @@ public class Boot {
 			if(delta >= 20){
 				delta = 20;
 			}
-		
-			
+		    
+			update(); // checks for escape key
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
+			paddleLeft.update();
 			paddleLeft.draw();
 			paddleRight.draw();
 			
@@ -96,6 +103,14 @@ public class Boot {
 	public static void main(String[] args) {
 		new Boot();
         
+	}
+	
+	public void update(){
+		while(Keyboard.next()){
+			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
+				shutdown = true;
+			}
+		}	
 	}
 
 	public static Long getDelta(){
