@@ -35,7 +35,7 @@ public class Boot {
 		
 		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
 		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
-		Ball pong = new Ball(20, 15, 1.7f, 640, 360);
+		Ball pong = new Ball(20, 15, 1.7f, 250, 360);
 		//pong.update();
 		//pong.draw();
 		
@@ -60,6 +60,7 @@ public class Boot {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
 			paddleLeft.update();
+			//paddleLeft.updateAI(pong);
 			paddleLeft.draw();
 			paddleRight.updateAI(pong);
 			paddleRight.draw();

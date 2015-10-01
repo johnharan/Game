@@ -9,6 +9,7 @@ public class Paddle {
 
 	private float x,y,width,height;
 	private Texture texture;
+	private int randomPosNeg = 0,randomMiss = 0, offset = 0;
 	
 	public Paddle(Texture texture, float x, float y, float width, float height) {
 		this.texture = texture;
@@ -32,25 +33,21 @@ public class Paddle {
 	}
 	
 	public void updateAI(Ball ball){
-		int randomNum = 0,randomMiss = 0, offset = 0;
+		
+		if(ball.getX() > Display.getWidth()/2 - 30 && ball.getX() < Display.getWidth()/2 && ball.getDirection()[0] > 0){
+			randomMiss = 50 + (int)(Math.random() * ((150 - 50) + 1)); // number of pixels that paddle will miss ball by
+			randomPosNeg = 1 + (int)(Math.random() * ((2 - 1) + 1)); // 1 is positive offset, 2 is negative
+			offset = randomPosNeg == 1? randomMiss:-randomMiss; 
+			//System.out.println("randomMiss: " + randomMiss + ", randomNum: " + randomNum + ", offset: " + offset + ",y: " + y);
+		}
+		
 
-		
-		if(ball.getX() > Display.getWidth()/2 + 100){
-			randomMiss = 100 + (int)(Math.random() * ((200 - 1) + 1));
-			randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1));
-			offset = randomNum == 1? randomMiss:-randomMiss; 
-			System.out.println("randomMiss: " + randomMiss + ", randomNum: " + randomNum + ", offset: " + offset);
-			y +=  offset;
-		}
-		
-		//System.out.println("ball x: " + (int)ball.getX() + ", display width: " + Display.getWidth()/2);
 		if(ball.getX() > Display.getWidth()/2){ 
+			y = ball.getY() - height/2 + offset; // height/2 ensures ball hits center of paddle, offset adds random adjustment
 			
-			y = ball.getY(); // problem is paddle still updates to ball.getY
-				// need to make paddle move in direction of ball, not equal position of ball
-	
 		}
-		
+		System.out.println("ball x: "+ball.getX() + ",ball y: " + ball.getY() + ",offset: " + offset);
+
 		if(y >= Display.getHeight() - height){
 			y = Display.getHeight() - height;
 		}

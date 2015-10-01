@@ -48,9 +48,9 @@ public class Ball {
 		}
 		
 		if(x + 25 >= Display.getWidth() || (x+19 >= Boot.getPaddleRight().getX() && y+18 > Boot.getPaddleRight().getY() && y-17 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())){
-			direction[0] = -1;
-			if(lastY <= -1){
-				direction[1] -= 1;
+			direction[0] = -1; // puts ball x in opposite direction
+			if(lastY <= -1){ // puts ball y in same direction
+				direction[1] -= 1; 
 			}else{
 				direction[1] += 1;
 			}
@@ -122,6 +122,8 @@ public class Ball {
 		this.y = y;
 	}
 	
-	
+	public int[] getDirection(){
+		return direction;
+	}
 
 }
