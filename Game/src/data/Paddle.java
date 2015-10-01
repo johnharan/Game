@@ -43,7 +43,7 @@ public class Paddle {
 		
 
 		if(ball.getX() > Display.getWidth()/2){ 
-			y = ball.getY() - height/2 + offset; // height/2 ensures ball hits center of paddle, offset adds random adjustment
+			y = ball.getY() - height/2 + offset; // height/2 ensures ball hits center of paddle, offset adds random adjustment to simulate real player
 			
 		}
 		System.out.println("ball x: "+ball.getX() + ",ball y: " + ball.getY() + ",offset: " + offset);
@@ -51,7 +51,9 @@ public class Paddle {
 		if(y >= Display.getHeight() - height){
 			y = Display.getHeight() - height;
 		}
-		
+		if(y <= 0){
+			y = 0;
+		}
 	}
 	
 	public void draw(){

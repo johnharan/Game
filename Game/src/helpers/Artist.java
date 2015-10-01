@@ -35,6 +35,8 @@ import java.io.InputStream;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -68,7 +70,6 @@ public class Artist {
 	
 	public static void drawQuad(float x, float y, float width, float height){
 		glBegin(GL_QUADS);
-		
 		glVertex2f(x,y);
 		glVertex2f(x + width,y);
 		glVertex2f(x + width,y + height);
@@ -108,6 +109,14 @@ public class Artist {
 		glVertex2f(0,height);
 		glEnd();
 		glLoadIdentity();
+	}
+	
+	public static void drawNet(){
+
+	    for(int i=10;i<1100;i+=100){
+	    	drawQuad(Display.getWidth()/2-20, i, 20, 50);
+	    }
+
 	}
 
 	public static Texture loadTexture(String path, String fileType){
