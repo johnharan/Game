@@ -33,9 +33,11 @@ public class Boot {
 
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		
+		Scoreboard scoreboard = new Scoreboard(3, 3);
+		
 		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
 		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
-		Ball pong = new Ball(20, 15, 0.5f, 250, 360);
+		Ball pong = new Ball(20, 15, 1.0f, 250, 360);
 		//pong.update();
 		//pong.draw();
 		
@@ -62,7 +64,6 @@ public class Boot {
 			drawNet();
 			
 			paddleLeft.update();
-			//paddleLeft.updateAI(pong);
 			paddleLeft.draw();
 			paddleRight.updateAI(pong);
 			paddleRight.draw();

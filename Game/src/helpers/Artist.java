@@ -113,7 +113,7 @@ public class Artist {
 	
 	public static void drawNet(){
 
-	    for(int i=10;i<1100;i+=100){
+	    for(int i=15;i<1100;i+=100){
 	    	drawQuad(Display.getWidth()/2-20, i, 20, 50);
 	    }
 

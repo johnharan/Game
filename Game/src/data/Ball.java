@@ -89,6 +89,13 @@ public class Ball {
 			direction[1] = 1;
 		}
 		//////
+		
+		if(x - 17 <= Boot.getPaddleLeft().getX()){ // these are repeating too often
+			Scoreboard.addPoint("PaddleRight");
+		}
+		if(x + 25 >= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()){
+			Scoreboard.addPoint("PaddleLeft");
+		}
 	}
 	
 	public boolean isAlive(){
