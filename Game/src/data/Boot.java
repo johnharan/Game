@@ -1,4 +1,6 @@
 package data;
+import java.lang.management.ManagementFactory;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
@@ -26,7 +28,6 @@ public class Boot {
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
     private static boolean shutdown = false;
-	private static boolean first = true;
 	private static Ball pong;
 	
 
@@ -47,9 +48,7 @@ public class Boot {
 		//drawCircle(360, 360, 20, 10);
 		
 
-		 
-		
-		
+
 		long nextSecond = System.currentTimeMillis() + 1000;
 		lastTime = System.nanoTime();
 
@@ -58,7 +57,7 @@ public class Boot {
 			delta = (currentTime - lastTime) / 1000000;
 			lastTime = currentTime;	
 	
-			if(delta >= 20){
+			if(delta >= 20){ // restricting delta time to 20ms
 				delta = 20;
 			}
 		    
@@ -77,26 +76,22 @@ public class Boot {
 				pong.update();
 				pong.draw();
 			}else{
-				if(Boot.first = true){
-					Thread t1 = new Thread(new Runnable() {
+				if(Thread.activeCount() <= 2){ // this allows the main thread plus max of one timer thread
+					Thread timedRespawn = new Thread(new Runnable() {
 					     public void run() {
 					          try {
-								Thread.sleep(1000);
+								Thread.sleep(1000); // wait 1 second then respawn ball
 								pong.respawn();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 					     }
 					});  
-					t1.start();
-					
+					timedRespawn.start();
 				}
 			}
 			
-			System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
 			
-			
-		    
 		    //////////////////////////
 			
 			Display.update();
@@ -145,8 +140,4 @@ public class Boot {
 		return delta;
 	}
 	
-	public static void setFirst(boolean first) {
-		Boot.first = first;
-	}
-
 }

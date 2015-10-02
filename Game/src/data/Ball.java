@@ -90,17 +90,18 @@ public class Ball {
 		}
 		//////
 		
-		if(x - 17 <= Boot.getPaddleLeft().getX()){ // these are repeating too often
+		// below checks scores
+		if(x <= Boot.getPaddleLeft().getX()){ // paddle right scores a point
 			long currentTime = System.currentTimeMillis();
-			if(System.currentTimeMillis() == currentTime){
+			if(System.currentTimeMillis() == currentTime){ // hack used to make sure block is called only once per score
 				Scoreboard.addPoint("PaddleRight");
 				die();
 			}
 		}
-		if(x + 25 >= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()){
+		if(x >= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()){  // paddle left scores a point
 			long currentTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() == currentTime){
-				Scoreboard.addPoint("PaddleRight");
+				Scoreboard.addPoint("PaddleLeft");
 				die();
 			}
 		}
@@ -114,7 +115,6 @@ public class Ball {
 		y = 360;
 		direction[0] = randSign;
 		alive = true;
-		Boot.setFirst(true);
 	}
 	
 	public boolean isAlive(){
@@ -123,7 +123,6 @@ public class Ball {
 	
 	public void die(){
 		alive = false;
-		
 	}
 
 	public int getRadius() {
