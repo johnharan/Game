@@ -10,7 +10,7 @@ public class Ball {
 
 	private int radius,sides;
 	private float speed,x,y;
-	private boolean alive;
+	private boolean alive = true;
 	private int[] direction;
 
 	
@@ -91,11 +91,30 @@ public class Ball {
 		//////
 		
 		if(x - 17 <= Boot.getPaddleLeft().getX()){ // these are repeating too often
-			Scoreboard.addPoint("PaddleRight");
+			long currentTime = System.currentTimeMillis();
+			if(System.currentTimeMillis() == currentTime){
+				Scoreboard.addPoint("PaddleRight");
+				die();
+			}
 		}
 		if(x + 25 >= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()){
-			Scoreboard.addPoint("PaddleLeft");
+			long currentTime = System.currentTimeMillis();
+			if(System.currentTimeMillis() == currentTime){
+				Scoreboard.addPoint("PaddleRight");
+				die();
+			}
 		}
+	}
+	
+	public void respawn(){
+		int randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1)); // random number between 1 and 2
+		int randSign = randomNum == 1? 1:-1; // random number used to choose random sign
+		
+		x = Display.getWidth()/2;
+		y = 360;
+		direction[0] = randSign;
+		alive = true;
+		Boot.setFirst(true);
 	}
 	
 	public boolean isAlive(){
@@ -104,6 +123,7 @@ public class Ball {
 	
 	public void die(){
 		alive = false;
+		
 	}
 
 	public int getRadius() {

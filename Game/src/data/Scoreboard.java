@@ -3,8 +3,10 @@ package data;
 
 public class Scoreboard {
 	private static int pointsPerGame,totalRounds,currentRound,leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
-	private static boolean gameOver;
+	private static boolean gameOver = false;
 	
+	
+
 	public Scoreboard(int pointsPerGame, int totalRounds) {
 		this.pointsPerGame = pointsPerGame;
 		this.totalRounds = totalRounds;
@@ -41,6 +43,11 @@ public class Scoreboard {
 		}
 		System.out.println("Human: Points = " + leftPaddlePoints + ",Rounds = " + leftPaddleRounds);
 		System.out.println("AI: Points = " + rightPaddlePoints + ",Rounds = " + rightPaddleRounds);
+		System.out.println();
+	}
+	
+	public static boolean isGameOver() {
+		return gameOver;
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.Timer;
 import org.newdawn.slick.opengl.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -25,8 +26,10 @@ public class Boot {
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
     private static boolean shutdown = false;
+	private static boolean first = true;
+	private static Ball pong;
 	
-	
+
 	public Boot() {
 		beginSession();
 		
@@ -37,17 +40,19 @@ public class Boot {
 		
 		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
 		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
-		Ball pong = new Ball(20, 15, 1.0f, 250, 360);
+		pong = new Ball(20, 15, 1.0f, Display.getWidth()/2, 360);
 		//pong.update();
 		//pong.draw();
 		
 		//drawCircle(360, 360, 20, 10);
 		
-		
+
+		 
 		
 		
 		long nextSecond = System.currentTimeMillis() + 1000;
 		lastTime = System.nanoTime();
+
 		while(!shutdown){
 			currentTime = System.nanoTime();
 			delta = (currentTime - lastTime) / 1000000;
@@ -68,9 +73,27 @@ public class Boot {
 			paddleRight.updateAI(pong);
 			paddleRight.draw();
 			
-			pong.update();
-			pong.draw();
+			if(pong.isAlive()){
+				pong.update();
+				pong.draw();
+			}else{
+				if(Boot.first = true){
+					Thread t1 = new Thread(new Runnable() {
+					     public void run() {
+					          try {
+								Thread.sleep(1000);
+								pong.respawn();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+					     }
+					});  
+					t1.start();
+					
+				}
+			}
 			
+			System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
 			
 			
 		    
@@ -120,6 +143,10 @@ public class Boot {
 
 	public static Long getDelta(){
 		return delta;
+	}
+	
+	public static void setFirst(boolean first) {
+		Boot.first = first;
 	}
 
 }
