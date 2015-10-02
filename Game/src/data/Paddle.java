@@ -32,19 +32,27 @@ public class Paddle {
 		}
 	}
 	
-	public void updateAI(Ball ball){
+	public void updateAI(Ball ball, long delta){
 		
-		if(ball.getX() > Display.getWidth()/2 - 30 && ball.getX() < Display.getWidth()/2 && ball.getDirection()[0] > 0){
+		// below is used to calculate a new offset before ball reaches paddleRight
+		if(ball.getX() > Display.getWidth()/2 - 530 && ball.getX() < Display.getWidth()/2 - 500 && ball.getDirection()[0] > 0){
 			randomMiss = 50 + (int)(Math.random() * ((150 - 50) + 1)); // number of pixels that paddle will miss ball by
 			randomPosNeg = 1 + (int)(Math.random() * ((2 - 1) + 1)); // 1 is positive offset, 2 is negative
 			offset = randomPosNeg == 1? randomMiss:-randomMiss; 
-			//System.out.println("randomMiss: " + randomMiss + ", randomNum: " + randomNum + ", offset: " + offset + ",y: " + y);
 		}
 		
 
-		if(ball.getX() > Display.getWidth()/2){ 
-			y = ball.getY() - height/2 + offset; // height/2 ensures ball hits center of paddle, offset adds random adjustment to simulate real player
+		if(ball.isAlive() && ball.getX() > Display.getWidth()/2 - 200 && ball.getDirection()[0] > 0){ // paddle right starts tracking ball after it passes center of screen
+			y = ball.getY() - height/2; // height/2 ensures ball hits center of paddle, offset adds random adjustment to simulate real player
 			
+		}
+		
+		// both if blocks below instruct paddle to move to center 
+		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y < Display.getHeight()/2 - height/2){ // (if ball not alive or if ball moving left to right) and paddle not at center
+			y += delta * 0.5;
+		}
+		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y > Display.getHeight()/2 - height/2){
+			y -= delta * 0.5;
 		}
 		//System.out.println("ball x: "+ball.getX() + ",ball y: " + ball.getY() + ",offset: " + offset);
 

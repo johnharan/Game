@@ -27,9 +27,11 @@ public class Ball {
 	}
 
 	public void update(){
-		findDirection();
-		x += Boot.getDelta() * direction[0] * speed;
-		y += Boot.getDelta() * direction[1] * speed;
+		if(isAlive()){
+			findDirection();
+			x += Boot.getDelta() * direction[0] * speed;
+			y += Boot.getDelta() * direction[1] * speed;
+		}
 		
 	}
 	
@@ -38,8 +40,7 @@ public class Ball {
 	}
 	
 	public void findDirection(){
-		int randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1)); // random number between 1 and 2
-		int lastY = randomNum == 1? 1:-1; // random number used to choose random sign, also determines ball y direction for first collision at start of round
+		int lastY = 1 + (int)(Math.random() * ((2 - 1) + 1)) == 1? 1:-1; // random number used to choose random sign, also determines ball y direction for first collision at start of round
 		
 		if(direction[1] != 0){ // gets the last Y direction - which is then used below to ensure ball follows correct path
 			lastY = direction[1];
@@ -108,12 +109,15 @@ public class Ball {
 	}
 	
 	public void respawn(){
-		int randomNum = 1 + (int)(Math.random() * ((2 - 1) + 1)); // random number between 1 and 2
-		int randSign = randomNum == 1? 1:-1; // random number used to choose random sign
+		int randSignX = 1 + (int)(Math.random() * ((2 - 1) + 1)) == 1? 1:-1; // if random number between 1 and 2 = 1, then sign is positive, else its negative
+		int randSignY = 1 + (int)(Math.random() * ((2 - 1) + 1)) == 1? 1:-1;
+		int randomY = 300 + (int)(Math.random() * ((900 - 300) + 1)); // random Y position
 		
 		x = Display.getWidth()/2;
-		y = 360;
-		direction[0] = randSign;
+		y = randomY;
+		direction[0] = randSignX;
+		direction[1] = randSignY;
+		System.out.println("randSignX: " + randSignX + ",randSignY: " + randSignY + ", randomY: " + randomY);
 		alive = true;
 	}
 	

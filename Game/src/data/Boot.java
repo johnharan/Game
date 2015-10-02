@@ -69,13 +69,14 @@ public class Boot {
 			
 			paddleLeft.update();
 			paddleLeft.draw();
-			paddleRight.updateAI(pong);
+			paddleRight.updateAI(pong,delta);
 			paddleRight.draw();
 			
 			if(pong.isAlive()){
 				pong.update();
 				pong.draw();
 			}else{
+				pong.update();
 				if(Thread.activeCount() <= 2){ // this allows the main thread plus max of one timer thread
 					Thread timedRespawn = new Thread(new Runnable() {
 					     public void run() {
