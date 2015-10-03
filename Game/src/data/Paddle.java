@@ -19,26 +19,21 @@ public class Paddle {
 		this.y = y;
 	}
 	
-	public void update(){
+	public void update(){ // updates user controlled paddle
 		
-		//x = Mouse.getX();
-		y = Display.getHeight() - Mouse.getY();
+		y = Display.getHeight() - Mouse.getY(); // subtract mouse y from display height to invert the mouse control of paddle
 		
-		if(x >= Display.getWidth()/2 - width){
-			x = Display.getWidth()/2 - width;
-		}
-		if(y >= Display.getHeight() - height){
+		if(y >= Display.getHeight() - height){ // ensures paddle left doesn't go outside bottom of screen
 			y = Display.getHeight() - height;
 		}
 	}
 	
-	public void updateAI(Ball ball, long delta){
+	public void updateAI(Ball ball, long delta){ // updates ai paddle
 		// below is used to calculate a new offset before ball reaches paddleRight
 		if(ball.getX() > Display.getWidth()/2 - 530 && ball.getX() < Display.getWidth()/2 - 500 && ball.getDirection()[0] > 0){
 			randomMiss = low + (int)(Math.random() * ((max - low) + 1)); // number of pixels that paddle will miss ball by
 			randomPosNeg = 1 + (int)(Math.random() * ((2 - 1) + 1)); // 1 is positive offset, 2 is negative
-			offset = randomPosNeg == 1? randomMiss:-randomMiss; 
-			System.out.println(offset);
+			offset = randomPosNeg == 1? randomMiss:-randomMiss;  // offset is amount that paddle will miss ball by, 0 offset means paddle can't miss ball
 		}
 		
 
@@ -48,18 +43,18 @@ public class Paddle {
 		}
 		
 		// both if blocks below instruct paddle to move to center 
-		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y < Display.getHeight()/2 - height/2){ // (if ball not alive or if ball moving left to right) and paddle not at center
+		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y < Display.getHeight()/2 - height/2){ // (if ball not alive or if ball moving right to left) and paddle above center
 			y += delta * 0.5;
 		}
-		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y > Display.getHeight()/2 - height/2){
+		if((!ball.isAlive() || ball.getDirection()[0] < 0) && y > Display.getHeight()/2 - height/2){ // (if ball not alive or if ball moving right to left) and paddle below center
 			y -= delta * 0.5;
 		}
 		//System.out.println("ball x: "+ball.getX() + ",ball y: " + ball.getY() + ",offset: " + offset);
 
-		if(y >= Display.getHeight() - height){
+		if(y >= Display.getHeight() - height){ // ensures paddle right doesn't go outside bottom of screen
 			y = Display.getHeight() - height;
 		}
-		if(y <= 0){
+		if(y <= 0){ // ensures paddle right doesn't go outside top of screen
 			y = 0;
 		}
 	}

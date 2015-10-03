@@ -62,8 +62,8 @@ public class Artist {
 		glOrtho(0,Display.getWidth(),Display.getHeight(),0,1,-1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D); 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		
 	}
@@ -109,14 +109,34 @@ public class Artist {
 		glVertex2f(0,height);
 		glEnd();
 		glLoadIdentity();
+		
 	}
 	
 	public static void drawNet(){
-
 	    for(int i=15;i<1100;i+=100){
 	    	drawQuad(Display.getWidth()/2-20, i, 20, 50);
 	    }
+	}
+	
+	public static void drawNumbers(Texture text, int num, float x, float y){
+		if(num < 10){
+			int width = 100, height = 113;
+			float x1 = num * 0.065f, x2 = (num + 1) * 0.065f, y1 = 0, y2 = 1; // diff between x and y = 0.065
 
+			text.bind();
+			glTranslatef(x, y, 0);
+			glBegin(GL_QUADS);
+			glTexCoord2f(x1, y1);
+			glVertex2f(0, 0);
+			glTexCoord2f(x2, y1);
+			glVertex2f(width, 0);
+			glTexCoord2f(x2, y2);
+			glVertex2f(width, height);
+			glTexCoord2f(x1, y2);
+			glVertex2f(0, height);
+			glEnd();
+			glLoadIdentity();
+		}
 	}
 
 	public static Texture loadTexture(String path, String fileType){

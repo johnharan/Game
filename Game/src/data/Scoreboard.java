@@ -7,6 +7,22 @@ public class Scoreboard {
 	
 	
 
+	public static int getLeftPaddleRounds() {
+		return leftPaddleRounds;
+	}
+
+	public static int getRightPaddleRounds() {
+		return rightPaddleRounds;
+	}
+
+	public static int getLeftPaddlePoints() {
+		return leftPaddlePoints;
+	}
+
+	public static int getRightPaddlePoints() {
+		return rightPaddlePoints;
+	}
+
 	public Scoreboard(int pointsPerGame, int totalRounds) {
 		this.pointsPerGame = pointsPerGame;
 		this.totalRounds = totalRounds;

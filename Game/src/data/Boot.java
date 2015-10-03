@@ -29,15 +29,15 @@ public class Boot {
     private static Paddle paddleRight;
     private static boolean shutdown = false;
 	private static Ball pong;
-	
 
 	public Boot() {
 		beginSession();
 		
 
 		Texture paddle = loadTexture("res/paddle.png","PNG");
+		Texture numbers = loadTexture("res/numbers.png","PNG");
 		
-		Scoreboard scoreboard = new Scoreboard(3, 3);
+		new Scoreboard(3, 9); // pointsPerGame, rounds
 		
 		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
 		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
@@ -47,6 +47,8 @@ public class Boot {
 		long nextSecond = System.currentTimeMillis() + 1000;
 		lastTime = System.nanoTime();
 
+		
+		
 		while(!shutdown){
 			currentTime = System.nanoTime();
 			delta = (currentTime - lastTime) / 1000000; // delta is the duration of time since last frame/iteration of loop
@@ -61,6 +63,12 @@ public class Boot {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
 			drawNet();
+			
+			drawNumbers(numbers,Scoreboard.getLeftPaddlePoints(),Display.getWidth()/2 - 420,50);
+			drawNumbers(numbers,Scoreboard.getLeftPaddleRounds(),Display.getWidth()/2 - 300,50);
+			
+			drawNumbers(numbers,Scoreboard.getRightPaddlePoints(),Display.getWidth()/2 + 180,50);
+			drawNumbers(numbers,Scoreboard.getRightPaddleRounds(),Display.getWidth()/2 + 300,50);
 			
 			paddleLeft.update();
 			paddleLeft.draw();
