@@ -117,7 +117,7 @@ public class Ball {
 		y = randomY;
 		direction[0] = randSignX;
 		direction[1] = randSignY;
-		System.out.println("randSignX: " + randSignX + ",randSignY: " + randSignY + ", randomY: " + randomY);
+		//System.out.println("randSignX: " + randSignX + ",randSignY: " + randSignY + ", randomY: " + randomY);
 		alive = true;
 	}
 	

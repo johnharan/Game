@@ -41,12 +41,7 @@ public class Boot {
 		
 		paddleLeft = new Paddle(paddle, 150, 278, 64, 128);
 		paddleRight = new Paddle(paddle, 1700, 277, 64, 128);
-		pong = new Ball(20, 15, 1.0f, Display.getWidth()/2, 360);
-		//pong.update();
-		//pong.draw();
-		
-		//drawCircle(360, 360, 20, 10);
-		
+		pong = new Ball(20, 15, 1.5f, Display.getWidth()/2, 360);
 
 
 		long nextSecond = System.currentTimeMillis() + 1000;
@@ -54,7 +49,7 @@ public class Boot {
 
 		while(!shutdown){
 			currentTime = System.nanoTime();
-			delta = (currentTime - lastTime) / 1000000;
+			delta = (currentTime - lastTime) / 1000000; // delta is the duration of time since last frame/iteration of loop
 			lastTime = currentTime;	
 	
 			if(delta >= 20){ // restricting delta time to 20ms
@@ -75,6 +70,21 @@ public class Boot {
 			if(pong.isAlive()){
 				pong.update();
 				pong.draw();
+				// the below if block uses a new thread to decay the ai's performance over time, the performance resets after a score
+				if(Thread.activeCount() <= 2){ // this allows the main thread plus max of one timer thread
+					Thread timedMissAdjustment = new Thread(new Runnable() {
+					     public void run() {
+					          try {
+								Thread.sleep(2000); // wait 2 seconds
+								paddleRight.setLow(paddleRight.getLow() + 5);
+								paddleRight.setMax(paddleRight.getMax() + 10);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+					     }
+					});  
+					timedMissAdjustment.start();
+				}
 			}else{
 				pong.update();
 				if(Thread.activeCount() <= 2){ // this allows the main thread plus max of one timer thread
@@ -83,6 +93,9 @@ public class Boot {
 					          try {
 								Thread.sleep(1000); // wait 1 second then respawn ball
 								pong.respawn();
+								paddleRight.setLow(0);
+								paddleRight.setMax(0);
+								paddleRight.setOffset(0); // resets the ai's offset
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -91,7 +104,7 @@ public class Boot {
 					timedRespawn.start();
 				}
 			}
-			
+			//System.out.println("Low: " + paddleRight.getLow() + ",High: " + paddleRight.getMax());
 			
 		    //////////////////////////
 			
