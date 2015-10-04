@@ -36,6 +36,7 @@ public class Scoreboard {
 	public static void newRound(){
 		if(currentRound == totalRounds){
 			gameOver = true;
+			Boot.setGameState(2);
 		}else{
 			leftPaddlePoints = 0;
 			rightPaddlePoints = 0;
@@ -66,4 +67,11 @@ public class Scoreboard {
 		return gameOver;
 	}
 	
+	public static void reset(){
+		leftPaddlePoints = 0;
+		rightPaddlePoints = 0;
+		leftPaddleRounds = 0;
+		rightPaddleRounds = 0;
+		currentRound = 0;
+	}
 }

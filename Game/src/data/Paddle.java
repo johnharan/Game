@@ -103,6 +103,11 @@ public class Paddle {
 		return height;
 	}
 	
-	
+	public void resetPaddle(int x, int y, int paddleWidth, int paddleHeight){
+		this.x = x;
+		this.y = y;
+		width = paddleWidth;
+		height = paddleHeight;
+	}
 
 }
