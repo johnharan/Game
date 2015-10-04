@@ -1,50 +1,62 @@
 package data;
 
+import static helpers.Artist.drawNumbers;
+import static helpers.Artist.loadTexture;
+
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.opengl.Texture;
+
 
 public class Scoreboard {
-	private static int pointsPerGame,totalRounds,currentRound,leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
+	private int currentRound,leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
 	private static boolean gameOver = false;
-	
+	private Texture numbers;
+	private int pointsPerGame,totalRounds;
 	
 
-	public static int getLeftPaddleRounds() {
+	public int getLeftPaddleRounds() {
 		return leftPaddleRounds;
 	}
 
-	public static int getRightPaddleRounds() {
+	public int getRightPaddleRounds() {
 		return rightPaddleRounds;
 	}
 
-	public static int getLeftPaddlePoints() {
+	public int getLeftPaddlePoints() {
 		return leftPaddlePoints;
 	}
 
-	public static int getRightPaddlePoints() {
+	public int getRightPaddlePoints() {
 		return rightPaddlePoints;
 	}
 
 	public Scoreboard(int pointsPerGame, int totalRounds) {
 		this.pointsPerGame = pointsPerGame;
 		this.totalRounds = totalRounds;
+		numbers = loadTexture("res/numbers.png","PNG");
 		
 	}
 
 	public void update(){
+		drawNumbers(numbers,this.getLeftPaddlePoints(),Display.getWidth()/2 - 420,50);
+		drawNumbers(numbers,this.getLeftPaddleRounds(),Display.getWidth()/2 - 300,50);
 		
+		drawNumbers(numbers,this.getRightPaddlePoints(),Display.getWidth()/2 + 180,50);
+		drawNumbers(numbers,this.getRightPaddleRounds(),Display.getWidth()/2 + 300,50);
 	}
 	
-	public static void newRound(){
+	public void newRound(){
+		leftPaddlePoints = 0;
+		rightPaddlePoints = 0;
 		if(currentRound == totalRounds){
 			gameOver = true;
 			Boot.setGameState(2);
 		}else{
-			leftPaddlePoints = 0;
-			rightPaddlePoints = 0;
 			currentRound++;
 		}	
 	}
 
-	public static void addPoint(String paddle) {
+	public void addPoint(String paddle) {
 		if(paddle.equals("PaddleLeft")){
 			leftPaddlePoints++;
 			if(leftPaddlePoints >= pointsPerGame){
@@ -67,7 +79,7 @@ public class Scoreboard {
 		return gameOver;
 	}
 	
-	public static void reset(){
+	public void reset(){
 		leftPaddlePoints = 0;
 		rightPaddlePoints = 0;
 		leftPaddleRounds = 0;

@@ -95,14 +95,14 @@ public class Ball {
 		if(x <= Boot.getPaddleLeft().getX()){ // paddle right scores a point
 			long currentTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() == currentTime){ // hack used to make sure block is called only once per score
-				Scoreboard.addPoint("PaddleRight");
+				Boot.getScores().addPoint("PaddleRight");
 				die();
 			}
 		}
 		if(x >= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()){  // paddle left scores a point
 			long currentTime = System.currentTimeMillis();
 			if(System.currentTimeMillis() == currentTime){
-				Scoreboard.addPoint("PaddleLeft");
+				Boot.getScores().addPoint("PaddleLeft");
 				die();
 			}
 		}

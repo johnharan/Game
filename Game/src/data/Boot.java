@@ -41,6 +41,8 @@ public class Boot {
 	private int ballX;
 	private int ballY;
 	private float ballSpeed;
+	private static Scoreboard scores;
+	private static Splashscreen splash;
 
 	public Boot() {
 		beginSession();
@@ -61,9 +63,9 @@ public class Boot {
 		ballSpeed = 1.5f;
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
-		Texture numbers = loadTexture("res/numbers.png","PNG");
 		
-		new Scoreboard(1, 1); // pointsPerGame, rounds
+		splash = new Splashscreen();
+		scores = new Scoreboard(3, 2); // pointsPerGame, rounds
 		
 		paddleLeft = new Paddle(paddle, plX, plY, paddleWidth, paddleHeight);
 		paddleRight = new Paddle(paddle, prX, prY, paddleWidth, paddleHeight);
@@ -88,13 +90,11 @@ public class Boot {
 			
 			drawNet();
 			
-			drawNumbers(numbers,Scoreboard.getLeftPaddlePoints(),Display.getWidth()/2 - 420,50);
-			drawNumbers(numbers,Scoreboard.getLeftPaddleRounds(),Display.getWidth()/2 - 300,50);
 			
-			drawNumbers(numbers,Scoreboard.getRightPaddlePoints(),Display.getWidth()/2 + 180,50);
-			drawNumbers(numbers,Scoreboard.getRightPaddleRounds(),Display.getWidth()/2 + 300,50);
 			
 			if(game_state == 1){ // play state
+				scores.update();
+				
 				paddleLeft.update();
 				paddleLeft.draw();
 				paddleRight.updateAI(pong, delta);
@@ -143,28 +143,28 @@ public class Boot {
 			//System.out.println("Low: " + paddleRight.getLow() + ",High: " + paddleRight.getMax());
 			
 			}else if(game_state == 2){ // end game state
+				scores.update();
 				paddleLeft.draw();
 				paddleRight.draw();
-				Splashscreen.displayGameOver();
-				Splashscreen.displayPlayAgain();
-				Splashscreen.detectClick();
+				splash.update();
+				splash.detectClick();
 				
 				// if reset button clicked , reset game and go to state 0
-				if(Splashscreen.getPlay() == true){
-					Scoreboard.reset();
+				if(splash.getPlay() == true){
+					scores.reset();
 					paddleLeft.resetPaddle(plX, plY, paddleWidth, paddleHeight);
 					paddleRight.resetPaddle(prX, prY, paddleWidth, paddleHeight);
 					game_state = 1;
-					Splashscreen.setPlay(false);
+					splash.setPlay(false);
 				}
 			}else{ // start state
-				Splashscreen.displayStartScreen();
-				Splashscreen.detectClick();
+				splash.update();
+				splash.detectClick();
 				
 				
-				if(Splashscreen.getPlay() == true){
+				if(splash.getPlay() == true){
 					game_state = 1;
-					Splashscreen.setPlay(false);
+					splash.setPlay(false);
 				}
 				
 				
@@ -189,6 +189,11 @@ public class Boot {
 		
 		Display.destroy();
 		
+	}
+
+
+	public static Scoreboard getScores() {
+		return scores;
 	}
 
 
