@@ -45,7 +45,7 @@ public class Boot {
 	public Boot() {
 		beginSession();
 		
-		game_state = 1; // 0 is start, 1 is play, 2 is end;
+		game_state = 0; // 0 is start, 1 is play, 2 is end;
 		
 		paddleWidth = 64;
 		paddleHeight = 128;
@@ -150,16 +150,23 @@ public class Boot {
 				Splashscreen.detectClick();
 				
 				// if reset button clicked , reset game and go to state 0
-				if(Splashscreen.getPlayAgain() == true){
+				if(Splashscreen.getPlay() == true){
 					Scoreboard.reset();
 					paddleLeft.resetPaddle(plX, plY, paddleWidth, paddleHeight);
 					paddleRight.resetPaddle(prX, prY, paddleWidth, paddleHeight);
 					game_state = 1;
-					Splashscreen.setPlayAgain(false);
+					Splashscreen.setPlay(false);
 				}
 			}else{ // start state
-				//Splashscreen.displayStartScreen();
-				//Splashscreen.displayPlayButton();
+				Splashscreen.displayStartScreen();
+				Splashscreen.detectClick();
+				
+				
+				if(Splashscreen.getPlay() == true){
+					game_state = 1;
+					Splashscreen.setPlay(false);
+				}
+				
 				
 			}
 		    //////////////////////////
@@ -182,6 +189,11 @@ public class Boot {
 		
 		Display.destroy();
 		
+	}
+
+
+	public static int getGameState() {
+		return game_state;
 	}
 
 

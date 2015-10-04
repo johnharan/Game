@@ -10,7 +10,7 @@ import org.newdawn.slick.opengl.Texture;
 
 public class Splashscreen {
 	
-	private static boolean playAgain = false;
+	private static boolean play = false;
 	
 	public Splashscreen() {
 		
@@ -27,21 +27,32 @@ public class Splashscreen {
 		Texture play_again = loadTexture("res/play_again.png","PNG");
 		drawQuadTexture(play_again,Display.getWidth()/2 - 150,Display.getHeight()/2,366,143);
 	}
+	
+	public static void displayStartScreen(){
+		Texture start_game = loadTexture("res/start_game.png","PNG");
+		drawQuadTexture(start_game,Display.getWidth()/2 - 150,Display.getHeight()/2,366,143);
+	}
 
 	public static void detectClick(){
 		int mouseY = Display.getHeight() - Mouse.getY(); // need to invert mouse y
 		// below checks for mouse click inside playAgain box
-		if(Mouse.isButtonDown(0) && Mouse.getX() >= Display.getWidth()/2 - 148 && Mouse.getX() <= Display.getWidth()/2 - 150 + 261 && mouseY >= Display.getHeight()/2 && mouseY <= Display.getHeight()/2 + 75){
-			playAgain = true;
-		}	
+
+		if (Mouse.isButtonDown(0)
+				&& Mouse.getX() >= Display.getWidth() / 2 - 148
+				&& Mouse.getX() <= Display.getWidth() / 2 - 150 + 261
+				&& mouseY >= Display.getHeight() / 2
+				&& mouseY <= Display.getHeight() / 2 + 75) {
+			play = true;
+		}
+	
 	}
 
-	public static boolean getPlayAgain() {
-		return playAgain;
+	public static boolean getPlay() {
+		return play;
 	}
 
-	public static void setPlayAgain(boolean playAgain) {
-		Splashscreen.playAgain = playAgain;
+	public static void setPlay(boolean play) {
+		Splashscreen.play = play;
 	}
 
 	
