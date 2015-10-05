@@ -46,9 +46,12 @@ public class Scoreboard {
 	}
 	
 	public void newRound(){
-		leftPaddlePoints = 0;
-		rightPaddlePoints = 0;
-		if(currentRound == totalRounds){
+		if(currentRound >= totalRounds && (leftPaddleRounds > rightPaddleRounds || rightPaddleRounds > leftPaddleRounds)){
+			if(leftPaddleRounds > rightPaddleRounds){
+				Boot.getSfx().get("clapping").play();
+			}else{
+				Boot.getSfx().get("booing").play();
+			}
 			gameOver = true;
 			Boot.setGameState(2);
 		}else{
@@ -60,14 +63,22 @@ public class Scoreboard {
 		if(paddle.equals("PaddleLeft")){
 			leftPaddlePoints++;
 			if(leftPaddlePoints >= pointsPerGame){
+				Boot.getSfx().get("round").play();
+				leftPaddlePoints = 0;
 				leftPaddleRounds++;
 				newRound();
+			}else{
+				Boot.getSfx().get("score").play();
 			}
 		}else{
 			rightPaddlePoints++;
 			if(rightPaddlePoints >= pointsPerGame){
+				Boot.getSfx().get("round").play();
+				rightPaddlePoints = 0;
 				rightPaddleRounds++;
 				newRound();
+			}else{
+				Boot.getSfx().get("score").play();
 			}
 		}
 		System.out.println("Human: Points = " + leftPaddlePoints + ",Rounds = " + leftPaddleRounds);

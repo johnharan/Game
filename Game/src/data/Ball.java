@@ -41,6 +41,8 @@ public class Ball {
 	
 	public void findDirection(){
 		int lastY = 1 + (int)(Math.random() * ((2 - 1) + 1)) == 1? 1:-1; // random number used to choose random sign, also determines ball y direction for first collision at start of round
+		int rand = 1 + (int)(Math.random() * ((2 - 1) + 1)); // for choosing ball sound
+		String[] sound = {"ball1","ball2"};
 		
 		if(direction[1] != 0){ // gets the last Y direction - which is then used below to ensure ball follows correct path
 			lastY = direction[1];
@@ -48,6 +50,8 @@ public class Ball {
 		
 		//// collision detection for left screen border and front of left paddle
 		if(x - 17 <= 0 || (x-25 <= Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth() && x-25 >= Boot.getPaddleLeft().getX() && y+19 > Boot.getPaddleLeft().getY() && y-21 < Boot.getPaddleLeft().getY() + Boot.getPaddleLeft().getHeight() )){
+			Boot.getSfx().get(sound[rand-1]).play();
+			
 			direction[0] = 1; // puts ball x in opposite direction
 			if(lastY <= -1){ // puts ball y in same direction
 				direction[1] = -1;
@@ -57,6 +61,7 @@ public class Ball {
 		}
 		//// collision detection for right screen border and front of right paddle
 		if(x + 25 >= Display.getWidth() || (x+19 >= Boot.getPaddleRight().getX() && x+19 <= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth() && y+18 > Boot.getPaddleRight().getY() && y-17 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())){
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[0] = -1; // puts ball x in opposite direction
 			if(lastY <= -1){ // puts ball y in same direction
 				direction[1] = -1; 
@@ -68,25 +73,31 @@ public class Ball {
 		////
 		
 		if(y >= Display.getHeight()){ // reverses ball direction if moving past bottom of screen border
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = -1;
 		}
 		if(y <= 0){ // reverses ball direction if moving past top of screen border
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = 1;
 		}
 		
 		// collision detection for top and bottom of left paddle, a ball hitting top of paddle approaches with a +1 direction,  a ball hitting top of paddle approaches with a -1 direction
 		if(y >= Boot.getPaddleLeft().getY()-28 && y <= Boot.getPaddleLeft().getY()-5 && direction[1] == 1 && x <= (Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth()) && x >= Boot.getPaddleLeft().getX()){
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = -1; // ball hit top of paddle, so reverse y direction
 		}
 		if(y <= (Boot.getPaddleLeft().getY()+28 + Boot.getPaddleLeft().getHeight()) && y >= (Boot.getPaddleLeft().getY()+5 + Boot.getPaddleLeft().getHeight()) && direction[1] == -1  && x <= (Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth()) && x >= Boot.getPaddleLeft().getX()){
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = 1; // ball hit bottom of paddle, so reverse y direction
 		}
 		/////
 		// collision detection for top and bottom of right paddle
 		if(y >= Boot.getPaddleRight().getY()-28 && y <= Boot.getPaddleRight().getY()-5 && direction[1] == 1 && x <= (Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()) && x >= Boot.getPaddleRight().getX()){
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = -1;
 		}
 		if(y <= (Boot.getPaddleRight().getY()+28 + Boot.getPaddleRight().getHeight()) && y >= (Boot.getPaddleRight().getY()+5 + Boot.getPaddleRight().getHeight()) && direction[1] == -1  && x <= (Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth()) && x >= Boot.getPaddleRight().getX()){
+			Boot.getSfx().get(sound[rand-1]).play();
 			direction[1] = 1;
 		}
 		//////

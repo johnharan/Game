@@ -1,5 +1,7 @@
 package data;
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -43,6 +45,8 @@ public class Boot {
 	private float ballSpeed;
 	private static Scoreboard scores;
 	private static Splashscreen splash;
+	private SoundPlayer sfx1;
+	private static HashMap<String, SoundPlayer> sfx;
 
 	public Boot() {
 		beginSession();
@@ -63,6 +67,25 @@ public class Boot {
 		ballSpeed = 1.5f;
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
+		
+		//sfx1 = new SoundPlayer("/res/ball1.mp3");
+		//sfx1.play();
+		
+		/// loading sounds ////
+		// each sound creates new thread
+		sfx = new HashMap<String, SoundPlayer>();
+		sfx.put("ball1", new SoundPlayer("/res/ball1.mp3"));
+		sfx.put("ball2", new SoundPlayer("/res/ball2.mp3"));
+		sfx.put("clapping", new SoundPlayer("/res/clapping.mp3"));
+		sfx.put("booing", new SoundPlayer("/res/booing.mp3"));
+		sfx.put("slot_machine", new SoundPlayer("/res/slot_machine.mp3"));
+		sfx.put("score", new SoundPlayer("/res/score.mp3"));
+		sfx.put("round", new SoundPlayer("/res/round.mp3"));
+		/////////
+		
+		sfx.get("ball1").play();
+		
+		/////////
 		
 		splash = new Splashscreen();
 		scores = new Scoreboard(3, 2); // pointsPerGame, rounds
@@ -107,7 +130,7 @@ public class Boot {
 					// the below if block uses a new thread to decay the ai's
 					// performance over time, the performance resets after a
 					// score
-					if (Thread.activeCount() <= 2) { // this allows the main thread plus max of one timer thread
+					if (Thread.activeCount() <= 10) { // this allows the main thread plus max of one timer thread. need to account for sound effect threads also
 						Thread timedMissAdjustment = new Thread(new Runnable() {
 							public void run() {
 								try {
@@ -123,11 +146,11 @@ public class Boot {
 					}
 				} else {
 					pong.update();
-					if (Thread.activeCount() <= 2) { // this allows the main thread plus max of one timer thread																											
+					if (Thread.activeCount() <= 10) { // this allows the main thread plus max of one timer thread																											
 						Thread timedRespawn = new Thread(new Runnable() {
 							public void run() {
 								try {
-									Thread.sleep(1000); // wait 1 second then respawn ball
+									Thread.sleep(1500); // wait 1 second then respawn ball
 									pong.respawn();
 									paddleRight.setLow(0);
 									paddleRight.setMax(0);
@@ -140,7 +163,8 @@ public class Boot {
 						timedRespawn.start();
 					}
 				}
-			//System.out.println("Low: " + paddleRight.getLow() + ",High: " + paddleRight.getMax());
+				//System.out.println("Low: " + paddleRight.getLow() + ",Max: " + paddleRight.getMax());
+			    //System.out.println("Threads: " + Thread.activeCount());
 			
 			}else if(game_state == 2){ // end game state
 				scores.update();
@@ -151,6 +175,7 @@ public class Boot {
 				
 				// if reset button clicked , reset game and go to state 0
 				if(splash.getPlay() == true){
+					sfx.get("slot_machine").play();
 					scores.reset();
 					paddleLeft.resetPaddle(plX, plY, paddleWidth, paddleHeight);
 					paddleRight.resetPaddle(prX, prY, paddleWidth, paddleHeight);
@@ -163,6 +188,7 @@ public class Boot {
 				
 				
 				if(splash.getPlay() == true){
+					sfx.get("slot_machine").play();
 					game_state = 1;
 					splash.setPlay(false);
 				}
@@ -189,6 +215,11 @@ public class Boot {
 		
 		Display.destroy();
 		
+	}
+
+
+	public static HashMap<String, SoundPlayer> getSfx() {
+		return sfx;
 	}
 
 
