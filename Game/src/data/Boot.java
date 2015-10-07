@@ -65,7 +65,7 @@ public class Boot {
 		ballSides = 15;
 		ballX = Display.getWidth()/2;
 		ballY = 360;
-		ballSpeed = 0.8f;
+		ballSpeed = 1.2f;
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		
@@ -93,8 +93,8 @@ public class Boot {
 		
 		paddleLeft = new Paddle(paddle, plX, plY, paddleWidth, paddleHeight);
 		paddleRight = new Paddle(paddle, prX, prY, paddleWidth, paddleHeight);
-		//pong = new Ball(ballRadius, ballSides, ballSpeed, ballX, ballY);
-		testPong = new Ball(20,15,0.5f,900,600);
+		pong = new Ball(ballRadius, ballSides, ballSpeed, ballX, ballY);
+		//testPong = new Ball(20,15,1.5f,900,600);
 
 
 		long nextSecond = System.currentTimeMillis() + 1000;
@@ -122,15 +122,15 @@ public class Boot {
 				
 				paddleLeft.update();
 				paddleLeft.draw();
-				paddleRight.updateAI(testPong, delta);
+				paddleRight.updateAI(pong, delta);
 				paddleRight.draw();
 			
 			
-				if (testPong.isAlive()) {
-					//pong.update();
-					//pong.draw();
-					testPong.update();
-					testPong.draw();
+				if (pong.isAlive()) {
+					pong.update();
+					pong.draw();
+					//testPong.update();
+					//testPong.draw();
 					// the below if block uses a new thread to decay the ai's
 					// performance over time, the performance resets after a
 					// score
@@ -149,15 +149,15 @@ public class Boot {
 						timedMissAdjustment.start();
 					}
 				} else {
-					//pong.update();
-					testPong.update();
+					pong.update();
+					//testPong.update();
 					if (Thread.activeCount() <= 10) { // this allows the main thread plus max of one timer thread																											
 						Thread timedRespawn = new Thread(new Runnable() {
 							public void run() {
 								try {
 									Thread.sleep(1500); // wait 1 second then respawn ball
-									//pong.respawn();
-									testPong.respawn();
+									pong.respawn();
+									//testPong.respawn();
 									paddleRight.setLow(0);
 									paddleRight.setMax(0);
 									paddleRight.setOffset(0); // resets the ai's offset
