@@ -27,6 +27,9 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.glTexParameterf;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_CLEAR;
 
 
 import java.io.IOException;
@@ -82,13 +85,16 @@ public class Artist {
 		//glEnable(GL_LINE_SMOOTH);
 		//glLineWidth(5);
 		
-		glBegin(GL_LINE_LOOP);
+		glBegin(GL_TRIANGLE_FAN);
+		//glBegin(GL_LINE_LOOP);
+		
 		
 		for (int i = 0; i < 360; i += 360 / sides)
 		{
 		    double angle = i * Math.PI / 180; // increment angle by i each iteration
 		    glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
 		}
+
 		glEnd();
 		glLoadIdentity();
 	}

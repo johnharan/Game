@@ -65,7 +65,7 @@ public class Boot {
 		ballSides = 15;
 		ballX = Display.getWidth()/2;
 		ballY = 360;
-		ballSpeed = 1.2f;
+		ballSpeed = 0.5f;
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		

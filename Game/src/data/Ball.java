@@ -22,14 +22,19 @@ public class Ball {
 		this.x = x;
 		this.y = y;
 		this.direction = new float[2];
-		this.direction[0] = -1.0f;
+		this.direction[0] = 1.0f;
 		this.direction[1] = 0.0f;
 	}
 
 	public void update(){
-		if(isAlive()){
+		if(isAlive()){ // if ball is alive / in play
 			findDirection();
-			x += Boot.getDelta() * direction[0] * speed;
+			
+			if(direction[1] > -1 && direction[1] < 1){ // this evens out the speed difference between inner/outer paddle shots, without this, shots with a smaller angle travel much slower than higher angled shots
+				x += Boot.getDelta() * direction[0] * (speed * 1.5); // speed is 50% faster
+			}else{
+				x += Boot.getDelta() * direction[0] * speed;
+			}
 			y += Boot.getDelta() * direction[1] * speed;
 		}
 		
@@ -52,7 +57,7 @@ public class Ball {
 		/////////////////////
 		//// collision detection for left screen border and front middle half of left paddle
 		if(x - 17 <= 0 || (x-25 <= Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth() && x-25 >= Boot.getPaddleLeft().getX() && y+19 > Boot.getPaddleLeft().getY() + (Boot.getPaddleLeft().getHeight() / 4) - 10 && y-21 < Boot.getPaddleLeft().getY() + 10 + (Boot.getPaddleLeft().getHeight() /4) * 3 )){
-			float randInnerAngle = (float) (Math.random() * ((0.5f - 0.1f) + 0.1f)); // random rebound angle for inner quarters of paddles
+			float randInnerAngle = (float) (Math.random() * ((0.7f - 0.1f) + 0.1f)); // random rebound angle for inner quarters of paddles
 			int rand = 1 + (int)(Math.random() * ((2 - 1) + 1)); // for choosing ball sound
 			Boot.getSfx().get(sound[rand-1]).play();
 			
@@ -65,7 +70,7 @@ public class Ball {
 		}
 		//// collision detection for front outer quarters of left paddle
 		if((x-25 <= Boot.getPaddleLeft().getX() + Boot.getPaddleLeft().getWidth() && x-25 >= Boot.getPaddleLeft().getX() && ((y+19 > Boot.getPaddleLeft().getY() && y-21 < Boot.getPaddleLeft().getY() - 10 + Boot.getPaddleLeft().getHeight() / 4 ) || (y+19 > Boot.getPaddleLeft().getY() + 10 + (Boot.getPaddleLeft().getHeight() / 4) * 3 && y-21 < Boot.getPaddleLeft().getY() + Boot.getPaddleLeft().getHeight())) )){
-			float randOuterAngle = (float) (Math.random() * ((1.5f - 0.3f) + 0.3f)); // random rebound angle for outer quarters of paddles
+			float randOuterAngle = (float) (Math.random() * ((1.5f - 0.4f) + 0.4f)); // random rebound angle for outer quarters of paddles
 			int rand = 1 + (int)(Math.random() * ((2 - 1) + 1)); // for choosing ball sound
 			Boot.getSfx().get(sound[rand-1]).play();
 			
@@ -78,7 +83,7 @@ public class Ball {
 		}
 		//// collision detection for right screen border and front middle half of right paddle
 		if(x + 25 >= Display.getWidth() || (x+19 >= Boot.getPaddleRight().getX() && x+19 <= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth() && y+18 > Boot.getPaddleRight().getY() + (Boot.getPaddleRight().getHeight() / 4) - 10  && y-17 < Boot.getPaddleRight().getY() + 10 + (Boot.getPaddleRight().getHeight() /4) * 3)){
-			float randInnerAngle = (float) (Math.random() * ((0.5f - 0.1f) + 0.1f)); // random rebound angle for inner quarters of paddles
+			float randInnerAngle = (float) (Math.random() * ((0.7f - 0.1f) + 0.1f)); // random rebound angle for inner quarters of paddles
 			int rand = 1 + (int)(Math.random() * ((2 - 1) + 1)); // for choosing ball sound
 			Boot.getSfx().get(sound[rand-1]).play();
 			direction[0] = -1; // puts ball x in opposite direction
@@ -93,7 +98,7 @@ public class Ball {
 		
 		//// collision detection for front outer quarters of right paddle
 		if((x+19 >= Boot.getPaddleRight().getX() && x+19 <= Boot.getPaddleRight().getX() + Boot.getPaddleRight().getWidth() && ((y+19 > Boot.getPaddleRight().getY() && y-21 < Boot.getPaddleRight().getY() - 10 + Boot.getPaddleRight().getHeight() / 4 ) || (y+19 > Boot.getPaddleRight().getY() + 10 + (Boot.getPaddleRight().getHeight() / 4) * 3 && y-21 < Boot.getPaddleRight().getY() + Boot.getPaddleRight().getHeight())))){
-			float randOuterAngle = (float) (Math.random() * ((1.5f - 0.3f) + 0.3f)); // random rebound angle for outer quarters of paddles
+			float randOuterAngle = (float) (Math.random() * ((1.5f - 0.4f) + 0.4f)); // random rebound angle for outer quarters of paddles
 			int rand = 1 + (int)(Math.random() * ((2 - 1) + 1)); // for choosing ball sound
 			Boot.getSfx().get(sound[rand-1]).play();
 			direction[0] = -1; // puts ball x in opposite direction
