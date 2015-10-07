@@ -1,23 +1,12 @@
 package data;
-import java.lang.management.ManagementFactory;
+
 import java.util.HashMap;
-
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.util.Timer;
 import org.newdawn.slick.opengl.Texture;
-
 import static org.lwjgl.opengl.GL11.*;
 import static helpers.Artist.*;
-import static data.Ball.*;
+
 
 public class Boot {
     
@@ -46,7 +35,6 @@ public class Boot {
 	private float ballSpeed;
 	private static Scoreboard scores;
 	private static Splashscreen splash;
-	private SoundPlayer sfx1;
 	private static HashMap<String, SoundPlayer> sfx;
 
 	public Boot() {
@@ -65,7 +53,7 @@ public class Boot {
 		ballSides = 15;
 		ballX = Display.getWidth()/2;
 		ballY = 360;
-		ballSpeed = 0.5f;
+		ballSpeed = 1.5f;
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		
