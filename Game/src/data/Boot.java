@@ -83,8 +83,6 @@ public class Boot {
 		pong = new Ball(ballRadius, ballSides, ballSpeed, ballX, ballY);
 		//testPong = new Ball(20,15,1.5f,900,600);
 
-
-		long nextSecond = System.currentTimeMillis() + 1000;
 		
 
 		while(!shutdown){
@@ -186,18 +184,11 @@ public class Boot {
 			
 			Display.update();
 			Display.sync(60);
-		
-			/////////////////////FPS///////////////////////// 
-			long currentTimeT = System.currentTimeMillis();
-			if (currentTimeT > nextSecond) {
-				nextSecond += 1000;
-				framesInLastSecond = framesInCurrentSecond;
-				framesInCurrentSecond = 0;
-			}
-			framesInCurrentSecond++;
+
+			FPS.update();
 			////////////////////////////////////////////////
 			
-			//System.out.println("Delta: " + Clock.getDelta() + ",FPS: " + framesInLastSecond);
+			System.out.println("Delta: " + Clock.getDelta() + ",FPS: " + FPS.getFPS());
 		}
 		
 		Display.destroy();
