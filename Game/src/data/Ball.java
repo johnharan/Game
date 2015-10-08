@@ -31,11 +31,11 @@ public class Ball {
 			findDirection();
 			
 			if(direction[1] > -1 && direction[1] < 1){ // this evens out the speed difference between inner/outer paddle shots, without this, shots with a smaller angle travel much slower than higher angled shots
-				x += Boot.getDelta() * direction[0] * (speed * 1.5); // speed is 50% faster
+				x += Clock.getDelta() * direction[0] * (speed * 1.5); // speed is 50% faster
 			}else{
-				x += Boot.getDelta() * direction[0] * speed;
+				x += Clock.getDelta() * direction[0] * speed;
 			}
-			y += Boot.getDelta() * direction[1] * speed;
+			y += Clock.getDelta() * direction[1] * speed;
 		}
 		
 	}

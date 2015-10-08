@@ -28,7 +28,7 @@ public class Paddle {
 		}
 	}
 	
-	public void updateAI(Ball ball, long delta){ // updates ai paddle
+	public void updateAI(Ball ball, float delta){ // updates ai paddle
 		// below is used to calculate a new offset before ball reaches paddleRight
 		if(ball.getX() > Display.getWidth()/2 - 530 && ball.getX() < Display.getWidth()/2 - 500 && ball.getDirection()[0] > 0){
 			randomMiss = low + (int)(Math.random() * ((max - low) + 1)); // number of pixels that paddle will miss ball by

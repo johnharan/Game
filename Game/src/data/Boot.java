@@ -14,7 +14,6 @@ public class Boot {
 	static final float MS_PER_UPDATE = 16.6f;
 	
 	private long currentTime,lastTime;
-	private static long delta;
 	private int framesInLastSecond = 0,framesInCurrentSecond = 0;
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
@@ -86,16 +85,10 @@ public class Boot {
 
 
 		long nextSecond = System.currentTimeMillis() + 1000;
-		lastTime = System.nanoTime();
+		
 
 		while(!shutdown){
-			currentTime = System.nanoTime();
-			delta = (currentTime - lastTime) / 1000000; // delta is the duration of time since last frame/iteration of loop
-			lastTime = currentTime;	
-	
-			if(delta >= 20){ // restricting delta time to 20ms
-				delta = 20;
-			}
+			Clock.update();
 		    
 			update(); // checks for escape key
 			
@@ -110,7 +103,7 @@ public class Boot {
 				
 				paddleLeft.update();
 				paddleLeft.draw();
-				paddleRight.updateAI(pong, delta);
+				paddleRight.updateAI(pong, Clock.getDelta());
 				paddleRight.draw();
 			
 			
@@ -204,7 +197,7 @@ public class Boot {
 			framesInCurrentSecond++;
 			////////////////////////////////////////////////
 			
-			//System.out.println("Delta: " + delta + ",FPS: " + framesInLastSecond);
+			//System.out.println("Delta: " + Clock.getDelta() + ",FPS: " + framesInLastSecond);
 		}
 		
 		Display.destroy();
@@ -253,8 +246,6 @@ public class Boot {
 		}	
 	}
 
-	public static Long getDelta(){
-		return delta;
-	}
+
 	
 }

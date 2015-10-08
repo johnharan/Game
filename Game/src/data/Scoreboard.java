@@ -8,27 +8,11 @@ import org.newdawn.slick.opengl.Texture;
 
 
 public class Scoreboard {
-	private int currentRound,leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
+	private int leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
 	private static boolean gameOver = false;
 	private Texture numbers;
 	private int pointsPerGame,totalRounds;
 	
-
-	public int getLeftPaddleRounds() {
-		return leftPaddleRounds;
-	}
-
-	public int getRightPaddleRounds() {
-		return rightPaddleRounds;
-	}
-
-	public int getLeftPaddlePoints() {
-		return leftPaddlePoints;
-	}
-
-	public int getRightPaddlePoints() {
-		return rightPaddlePoints;
-	}
 
 	public Scoreboard(int pointsPerGame, int totalRounds) {
 		this.pointsPerGame = pointsPerGame;
@@ -38,15 +22,15 @@ public class Scoreboard {
 	}
 
 	public void update(){
-		drawNumbers(numbers,this.getLeftPaddlePoints(),Display.getWidth()/2 - 420,50);
-		drawNumbers(numbers,this.getLeftPaddleRounds(),Display.getWidth()/2 - 300,50);
+		drawNumbers(numbers,leftPaddlePoints,Display.getWidth()/2 - 420,50);
+		drawNumbers(numbers,leftPaddleRounds,Display.getWidth()/2 - 300,50);
 		
-		drawNumbers(numbers,this.getRightPaddlePoints(),Display.getWidth()/2 + 180,50);
-		drawNumbers(numbers,this.getRightPaddleRounds(),Display.getWidth()/2 + 300,50);
+		drawNumbers(numbers,rightPaddlePoints,Display.getWidth()/2 + 180,50);
+		drawNumbers(numbers,rightPaddleRounds,Display.getWidth()/2 + 300,50);
 	}
 	
 	public void newRound(){
-		if(currentRound >= totalRounds && (leftPaddleRounds > rightPaddleRounds || rightPaddleRounds > leftPaddleRounds)){
+		if(leftPaddleRounds >= totalRounds && leftPaddleRounds > rightPaddleRounds || rightPaddleRounds >= totalRounds && rightPaddleRounds > leftPaddleRounds){
 			if(leftPaddleRounds > rightPaddleRounds){
 				Boot.getSfx().get("clapping").play();
 			}else{
@@ -54,9 +38,7 @@ public class Scoreboard {
 			}
 			gameOver = true;
 			Boot.setGameState(2);
-		}else{
-			currentRound++;
-		}	
+		}
 	}
 
 	public void addPoint(String paddle) {
@@ -95,6 +77,5 @@ public class Scoreboard {
 		rightPaddlePoints = 0;
 		leftPaddleRounds = 0;
 		rightPaddleRounds = 0;
-		currentRound = 0;
 	}
 }
