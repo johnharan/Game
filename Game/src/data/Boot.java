@@ -4,6 +4,9 @@ import java.util.HashMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
+
+import stateManager.GameState;
+import stateManager.Play;
 import static org.lwjgl.opengl.GL11.*;
 import static helpers.Artist.*;
 
@@ -35,11 +38,14 @@ public class Boot {
 	private static Scoreboard scores;
 	private static Splashscreen splash;
 	private static HashMap<String, SoundPlayer> sfx;
+	private static GameState play;
 
 	public Boot() {
 		beginSession();
 		
 		game_state = 0; // 0 is start, 1 is play, 2 is end;
+		
+		play = new Play();
 		
 		paddleWidth = 64;
 		paddleHeight = 128;
@@ -97,57 +103,8 @@ public class Boot {
 			
 			
 			if(game_state == 1){ // play state
-				scores.update();
-				
-				paddleLeft.update();
-				paddleLeft.draw();
-				paddleRight.updateAI(pong, Clock.getDelta());
-				paddleRight.draw();
-			
-			
-				if (pong.isAlive()) {
-					pong.update();
-					pong.draw();
-					//testPong.update();
-					//testPong.draw();
-					// the below if block uses a new thread to decay the ai's
-					// performance over time, the performance resets after a
-					// score
-					if (Thread.activeCount() <= 10) { // this allows the main thread plus max of one timer thread. need to account for sound effect threads also
-						Thread timedMissAdjustment = new Thread(new Runnable() {
-							public void run() {
-								try {
-									Thread.sleep(2000); // wait 2 seconds
-									paddleRight.setLow(paddleRight.getLow() + 15);
-									paddleRight.setMax(paddleRight.getMax() + 30);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-						});
-						timedMissAdjustment.start();
-					}
-				} else {
-					pong.update();
-					//testPong.update();
-					if (Thread.activeCount() <= 10) { // this allows the main thread plus max of one timer thread																											
-						Thread timedRespawn = new Thread(new Runnable() {
-							public void run() {
-								try {
-									Thread.sleep(1500); // wait 1 second then respawn ball
-									pong.respawn();
-									//testPong.respawn();
-									paddleRight.setLow(0);
-									paddleRight.setMax(0);
-									paddleRight.setOffset(0); // resets the ai's offset
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-						});
-						timedRespawn.start();
-					}
-				}
+				play.updateState();
+				play.drawState();
 				//System.out.println("Low: " + paddleRight.getLow() + ",Max: " + paddleRight.getMax());
 			    //System.out.println("Threads: " + Thread.activeCount());
 			
@@ -185,10 +142,10 @@ public class Boot {
 			Display.update();
 			Display.sync(60);
 
-			FPS.update();
+			FPS.update(); // count frames per second
 			////////////////////////////////////////////////
 			
-			System.out.println("Delta: " + Clock.getDelta() + ",FPS: " + FPS.getFPS());
+			//System.out.println("Delta: " + Clock.getDelta() + ",FPS: " + FPS.getFPS());
 		}
 		
 		Display.destroy();
@@ -205,6 +162,9 @@ public class Boot {
 		return scores;
 	}
 
+	public static Ball getPong(){
+		return pong;
+	}
 
 	public static int getGameState() {
 		return game_state;
