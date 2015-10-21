@@ -5,8 +5,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
+import stateManager.End;
 import stateManager.GameState;
 import stateManager.Play;
+import stateManager.Start;
 import static org.lwjgl.opengl.GL11.*;
 import static helpers.Artist.*;
 
@@ -24,12 +26,12 @@ public class Boot {
 	private static Ball pong;
 	private static Ball testPong;
 	private static int game_state;
-	private int plX;
-	private int plY;
-	private int prX;
-	private int prY;
-	private int paddleWidth;
-	private int paddleHeight;
+	private static int plX;
+	private static int plY;
+	private static int prX;
+	private static int prY;
+	private static int paddleWidth;
+	private static int paddleHeight;
 	private int ballRadius;
 	private int ballSides;
 	private int ballX;
@@ -38,14 +40,15 @@ public class Boot {
 	private static Scoreboard scores;
 	private static Splashscreen splash;
 	private static HashMap<String, SoundPlayer> sfx;
-	private static GameState play;
+	private static GameState start, play, end;
 
 	public Boot() {
 		beginSession();
 		
 		game_state = 0; // 0 is start, 1 is play, 2 is end;
-		
+		start = new Start();
 		play = new Play();
+		end = new End();
 		
 		paddleWidth = 64;
 		paddleHeight = 128;
@@ -94,49 +97,22 @@ public class Boot {
 		while(!shutdown){
 			Clock.update();
 		    
-			update(); // checks for escape key
+			isEscapePressed(); // checks for escape key, shuts down if so
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
 			drawNet();
 			
-			
-			
 			if(game_state == 1){ // play state
 				play.updateState();
 				play.drawState();
-				//System.out.println("Low: " + paddleRight.getLow() + ",Max: " + paddleRight.getMax());
-			    //System.out.println("Threads: " + Thread.activeCount());
-			
 			}else if(game_state == 2){ // end game state
-				scores.update();
-				paddleLeft.draw();
-				paddleRight.draw();
-				splash.update();
-				splash.detectClick();
-				
-				// if reset button clicked , reset game and go to state 0
-				if(splash.getPlay() == true){
-					sfx.get("slot_machine").play();
-					scores.reset();
-					paddleLeft.resetPaddle(plX, plY, paddleWidth, paddleHeight);
-					paddleRight.resetPaddle(prX, prY, paddleWidth, paddleHeight);
-					game_state = 1;
-					splash.setPlay(false);
-				}
+				end.updateState();
+				end.drawState();
 			}else{ // start state
-				splash.update();
-				splash.detectClick();
-				
-				
-				if(splash.getPlay() == true){
-					sfx.get("slot_machine").play();
-					game_state = 1;
-					splash.setPlay(false);
-				}
-				
-				
+				start.updateState();
 			}
+			
 		    //////////////////////////
 			
 			Display.update();
@@ -153,6 +129,36 @@ public class Boot {
 	}
 
 
+	public static int getPlX() {
+		return plX;
+	}
+
+
+	public static int getPlY() {
+		return plY;
+	}
+
+
+	public static int getPrX() {
+		return prX;
+	}
+
+
+	public static int getPrY() {
+		return prY;
+	}
+
+
+	public static int getPaddleWidth() {
+		return paddleWidth;
+	}
+
+
+	public static int getPaddleHeight() {
+		return paddleHeight;
+	}
+
+
 	public static HashMap<String, SoundPlayer> getSfx() {
 		return sfx;
 	}
@@ -160,6 +166,10 @@ public class Boot {
 
 	public static Scoreboard getScores() {
 		return scores;
+	}
+	
+	public static Splashscreen getSplashscreen(){
+		return splash;
 	}
 
 	public static Ball getPong(){
@@ -189,7 +199,7 @@ public class Boot {
         
 	}
 	
-	public void update(){
+	public void isEscapePressed(){
 		while(Keyboard.next()){
 			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
 				shutdown = true;
