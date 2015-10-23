@@ -1,6 +1,5 @@
 package data;
 
-import java.util.HashMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
@@ -15,83 +14,42 @@ import static helpers.Artist.*;
 
 public class Boot {
     
-	static final int WIDTH = Display.getWidth(),HEIGHT = Display.getHeight(), MAX_FRAMES_SKIPPED = 5;
-	static final float MS_PER_UPDATE = 16.6f;
-	
-	private long currentTime,lastTime;
-	private int framesInLastSecond = 0,framesInCurrentSecond = 0;
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
     private static boolean shutdown = false;
 	private static Ball pong;
-	private static Ball testPong;
 	private static int game_state;
-	private static int plX;
-	private static int plY;
-	private static int prX;
-	private static int prY;
-	private static int paddleWidth;
-	private static int paddleHeight;
-	private int ballRadius;
-	private int ballSides;
-	private int ballX;
-	private int ballY;
-	private float ballSpeed;
-	private static Scoreboard scores;
-	private static Splashscreen splash;
-	private static HashMap<String, SoundPlayer> sfx;
+	private static int paddleWidth = 64, paddleHeight = 128, plX = 150, plY = 278, prX = 1700, prY = 277;
+	private int ballRadius = 20, ballSides = 15;
+	private float ballSpeed = 1.5f;
+	private float ballX, ballY;
 	private static GameState start, play, end;
 
 	public Boot() {
 		beginSession();
+		
+		ballX = Display.getWidth()/2; // ballX and ballY must be initialised after beginSession is called
+		ballY = Display.getHeight()/2;
 		
 		game_state = 0; // 0 is start, 1 is play, 2 is end;
 		start = new Start();
 		play = new Play();
 		end = new End();
 		
-		paddleWidth = 64;
-		paddleHeight = 128;
-		plX = 150; 
-		plY = 278;
-		prX = 1700; 
-		prY = 277;
-		
-		ballRadius = 20;
-		ballSides = 15;
-		ballX = Display.getWidth()/2;
-		ballY = 360;
-		ballSpeed = 1.5f;
+		Scoreboard.setTotalRounds(3); // total rounds
+		Scoreboard.setPointsPerGame(3); // pointsPerGame
 		
 		Texture paddle = loadTexture("res/paddle.png","PNG");
 		
-		//sfx1 = new SoundPlayer("/res/ball1.mp3");
-		//sfx1.play();
+		SoundPlayer.loadSounds(); // loads sounds into HashMap stored in SoundPlayer
 		
-		/// loading sounds ////
-		// each sound creates new thread
-		sfx = new HashMap<String, SoundPlayer>();
-		sfx.put("ball1", new SoundPlayer("/res/ball1.mp3"));
-		sfx.put("ball2", new SoundPlayer("/res/ball2.mp3"));
-		sfx.put("clapping", new SoundPlayer("/res/clapping.mp3"));
-		sfx.put("booing", new SoundPlayer("/res/booing.mp3"));
-		sfx.put("slot_machine", new SoundPlayer("/res/slot_machine.mp3"));
-		sfx.put("score", new SoundPlayer("/res/score.mp3"));
-		sfx.put("round", new SoundPlayer("/res/round.mp3"));
-		/////////
-		
-		sfx.get("ball1").play();
+		SoundPlayer.getSounds().get("ball1").play(); // plays intro sound
 		
 		/////////
-		
-		splash = new Splashscreen();
-		scores = new Scoreboard(3, 2); // pointsPerGame, rounds
-		
+		System.out.println((float)Display.getWidth()/2);
 		paddleLeft = new Paddle(paddle, plX, plY, paddleWidth, paddleHeight);
 		paddleRight = new Paddle(paddle, prX, prY, paddleWidth, paddleHeight);
 		pong = new Ball(ballRadius, ballSides, ballSpeed, ballX, ballY);
-		//testPong = new Ball(20,15,1.5f,900,600);
-
 		
 
 		while(!shutdown){
@@ -101,9 +59,9 @@ public class Boot {
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
 			
-			drawNet();
 			
 			if(game_state == 1){ // play state
+				drawNet();
 				play.updateState();
 				play.drawState();
 			}else if(game_state == 2){ // end game state
@@ -125,7 +83,6 @@ public class Boot {
 		}
 		
 		Display.destroy();
-		
 	}
 
 
@@ -159,19 +116,6 @@ public class Boot {
 	}
 
 
-	public static HashMap<String, SoundPlayer> getSfx() {
-		return sfx;
-	}
-
-
-	public static Scoreboard getScores() {
-		return scores;
-	}
-	
-	public static Splashscreen getSplashscreen(){
-		return splash;
-	}
-
 	public static Ball getPong(){
 		return pong;
 	}
@@ -194,11 +138,6 @@ public class Boot {
 		return paddleRight;
 	}
 
-	public static void main(String[] args) {
-		new Boot();
-        
-	}
-	
 	public void isEscapePressed(){
 		while(Keyboard.next()){
 			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
@@ -207,6 +146,12 @@ public class Boot {
 		}	
 	}
 
-
+	///////// MAIN //////////
+	
+	public static void main(String[] args) {
+		new Boot();
+        
+	}
+	
 	
 }

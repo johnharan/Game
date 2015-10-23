@@ -1,13 +1,16 @@
 package stateManager;
 
 import data.Boot;
+import data.Scoreboard;
+import data.SoundPlayer;
+import data.Splashscreen;
 
 public class End implements GameState{
 
 	public void updateState() {
-		Boot.getScores().update();
-		Boot.getSplashscreen().update();
-		Boot.getSplashscreen().detectClick();
+		Scoreboard.update();
+		Splashscreen.update();
+		Splashscreen.detectClick();
 		checkGameReset();
 	}
 
@@ -17,13 +20,13 @@ public class End implements GameState{
 	}
 
 	public void checkGameReset(){
-		if(Boot.getSplashscreen().getPlay() == true){
-			Boot.getSfx().get("slot_machine").play();
-			Boot.getScores().reset();
+		if(Splashscreen.getPlay() == true){
+			SoundPlayer.getSounds().get("slot_machine").play();
+			Scoreboard.reset();
 			Boot.getPaddleLeft().resetPaddle(Boot.getPlX(), Boot.getPlY(), Boot.getPaddleWidth(), Boot.getPaddleHeight());
 			Boot.getPaddleRight().resetPaddle(Boot.getPrX(), Boot.getPrY(), Boot.getPaddleWidth(), Boot.getPaddleHeight());
 			Boot.setGameState(1);
-			Boot.getSplashscreen().setPlay(false);
+			Splashscreen.setPlay(false);
 		}
 	}
 }

@@ -3,7 +3,6 @@ package data;
 import static helpers.Artist.drawQuadTexture;
 import static helpers.Artist.loadTexture;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
@@ -11,19 +10,13 @@ import org.newdawn.slick.opengl.Texture;
 public class Splashscreen {
 	
 	private static boolean play = false;
-	private Texture game_over;
-	private Texture pong;
-	private Texture play_again;
-	private Texture start_game;
+	private static Texture game_over = loadTexture("res/game_over.png","PNG");
+	private static Texture pong = loadTexture("res/pong.png","PNG");
+	private static Texture play_again = loadTexture("res/play_again.png","PNG");
+	private static Texture start_game = loadTexture("res/start_game.png","PNG");
 	
-	public Splashscreen() {
-		game_over = loadTexture("res/game_over.png","PNG");
-		pong = loadTexture("res/pong.png","PNG");
-		play_again = loadTexture("res/play_again.png","PNG");
-		start_game = loadTexture("res/start_game.png","PNG");
-	}
 	
-	public void update(){
+	public static void update(){
 		if(Boot.getGameState() == 0){
 			drawQuadTexture(pong,Display.getWidth()/2 - 280,Display.getHeight()/2 - 300,743,198);
 			drawQuadTexture(start_game,Display.getWidth()/2 - 150,Display.getHeight()/2,366,143);
@@ -34,7 +27,7 @@ public class Splashscreen {
 	}
 
 
-	public void detectClick(){
+	public static void detectClick(){
 		int mouseY = Display.getHeight() - Mouse.getY(); // need to invert mouse y
 		// below checks for mouse click inside playAgain box
 
@@ -48,11 +41,11 @@ public class Splashscreen {
 	
 	}
 
-	public boolean getPlay() {
+	public static boolean getPlay() {
 		return play;
 	}
 
-	public void setPlay(boolean play) {
+	public static void setPlay(boolean play) {
 		Splashscreen.play = play;
 	}
 

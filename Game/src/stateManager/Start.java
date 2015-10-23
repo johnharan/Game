@@ -1,12 +1,14 @@
 package stateManager;
 
 import data.Boot;
+import data.SoundPlayer;
+import data.Splashscreen;
 
 public class Start implements GameState{
 
 	public void updateState() {
-		Boot.getSplashscreen().update();
-		Boot.getSplashscreen().detectClick();
+		Splashscreen.update();
+		Splashscreen.detectClick();
 		checkGameReset();
 	}
 
@@ -15,10 +17,10 @@ public class Start implements GameState{
 	}
 
 	public void checkGameReset(){
-		if(Boot.getSplashscreen().getPlay() == true){
-			Boot.getSfx().get("slot_machine").play();
+		if(Splashscreen.getPlay() == true){
+			SoundPlayer.getSounds().get("slot_machine").play();
 			Boot.setGameState(1);
-			Boot.getSplashscreen().setPlay(false);
+			Splashscreen.setPlay(false);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package helpers;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
@@ -25,7 +23,6 @@ import java.io.InputStream;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -34,7 +31,7 @@ public class Artist {
 
 	
 	public static void beginSession(){
-		Display.setTitle("Game");
+		Display.setTitle("Pong");
 		
 		try {
 			//Display.getDesktopDisplayMode();
@@ -43,18 +40,14 @@ public class Artist {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		
 
-		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0,Display.getWidth(),Display.getHeight(),0,1,-1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D); 
 		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
 	}
 	
 	public static void drawQuad(float x, float y, float width, float height){

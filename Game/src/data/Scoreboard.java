@@ -8,20 +8,13 @@ import org.newdawn.slick.opengl.Texture;
 
 
 public class Scoreboard {
-	private int leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
+	private static int leftPaddlePoints,rightPaddlePoints,leftPaddleRounds,rightPaddleRounds;
 	private static boolean gameOver = false;
-	private Texture numbers;
-	private int pointsPerGame,totalRounds;
-	
+	private static Texture numbers = loadTexture("res/numbers.png","PNG");
+	private static int pointsPerGame,totalRounds;
 
-	public Scoreboard(int pointsPerGame, int totalRounds) {
-		this.pointsPerGame = pointsPerGame;
-		this.totalRounds = totalRounds;
-		numbers = loadTexture("res/numbers.png","PNG");
-		
-	}
 
-	public void update(){
+	public static void update(){
 		drawNumbers(numbers,leftPaddlePoints,Display.getWidth()/2 - 420,50);
 		drawNumbers(numbers,leftPaddleRounds,Display.getWidth()/2 - 300,50);
 		
@@ -29,38 +22,38 @@ public class Scoreboard {
 		drawNumbers(numbers,rightPaddleRounds,Display.getWidth()/2 + 300,50);
 	}
 	
-	public void newRound(){
+	public static void newRound(){
 		if(leftPaddleRounds >= totalRounds && leftPaddleRounds > rightPaddleRounds || rightPaddleRounds >= totalRounds && rightPaddleRounds > leftPaddleRounds){
 			if(leftPaddleRounds > rightPaddleRounds){
-				Boot.getSfx().get("clapping").play();
+				SoundPlayer.getSounds().get("clapping").play();
 			}else{
-				Boot.getSfx().get("booing").play();
+				SoundPlayer.getSounds().get("booing").play();
 			}
 			gameOver = true;
 			Boot.setGameState(2);
 		}
 	}
 
-	public void addPoint(String paddle) {
+	public static void addPoint(String paddle) {
 		if(paddle.equals("PaddleLeft")){
 			leftPaddlePoints++;
 			if(leftPaddlePoints >= pointsPerGame){
-				Boot.getSfx().get("round").play();
+				SoundPlayer.getSounds().get("round").play();
 				leftPaddlePoints = 0;
 				leftPaddleRounds++;
 				newRound();
 			}else{
-				Boot.getSfx().get("score").play();
+				SoundPlayer.getSounds().get("score").play();
 			}
 		}else{
 			rightPaddlePoints++;
 			if(rightPaddlePoints >= pointsPerGame){
-				Boot.getSfx().get("round").play();
+				SoundPlayer.getSounds().get("round").play();
 				rightPaddlePoints = 0;
 				rightPaddleRounds++;
 				newRound();
 			}else{
-				Boot.getSfx().get("score").play();
+				SoundPlayer.getSounds().get("score").play();
 			}
 		}
 		System.out.println("Human: Points = " + leftPaddlePoints + ",Rounds = " + leftPaddleRounds);
@@ -72,10 +65,26 @@ public class Scoreboard {
 		return gameOver;
 	}
 	
-	public void reset(){
+	public static void reset(){
 		leftPaddlePoints = 0;
 		rightPaddlePoints = 0;
 		leftPaddleRounds = 0;
 		rightPaddleRounds = 0;
+	}
+
+	public static int getPointsPerGame() {
+		return pointsPerGame;
+	}
+
+	public static void setPointsPerGame(int pointsPerGame) {
+		Scoreboard.pointsPerGame = pointsPerGame;
+	}
+
+	public static int getTotalRounds() {
+		return totalRounds;
+	}
+
+	public static void setTotalRounds(int totalRounds) {
+		Scoreboard.totalRounds = totalRounds;
 	}
 }

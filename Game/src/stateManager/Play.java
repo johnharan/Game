@@ -2,6 +2,7 @@ package stateManager;
 
 import data.Boot;
 import data.Clock;
+import data.Scoreboard;
 
 public class Play implements GameState{
 
@@ -9,7 +10,7 @@ public class Play implements GameState{
 		Boot.getPaddleLeft().update();
 		Boot.getPaddleRight().updateAI(Boot.getPong(), Clock.getDelta());
 		updatePong();
-		Boot.getScores().update();
+		Scoreboard.update();
 	}
 
 	public void drawState() {
