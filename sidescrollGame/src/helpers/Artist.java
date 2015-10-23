@@ -31,8 +31,7 @@ public class Artist {
 
 	public static void beginSession(){
 		Display.setTitle("Grapple and Bounce");
-		
-		
+		//test
 		try {
 			//Display.getDesktopDisplayMode();
 			Display.setFullscreen(true);
