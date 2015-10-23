@@ -13,7 +13,6 @@ import static helpers.Artist.*;
 
 
 public class Boot {
-    
     private static Paddle paddleLeft;
     private static Paddle paddleRight;
     private static boolean shutdown = false;
@@ -45,8 +44,6 @@ public class Boot {
 		
 		SoundPlayer.getSounds().get("ball1").play(); // plays intro sound
 		
-		/////////
-		System.out.println((float)Display.getWidth()/2);
 		paddleLeft = new Paddle(paddle, plX, plY, paddleWidth, paddleHeight);
 		paddleRight = new Paddle(paddle, prX, prY, paddleWidth, paddleHeight);
 		pong = new Ball(ballRadius, ballSides, ballSpeed, ballX, ballY);
@@ -58,7 +55,6 @@ public class Boot {
 			isEscapePressed(); // checks for escape key, shuts down if so
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears screen each time.. don't need this if drawing background
-			
 			
 			if(game_state == 1){ // play state
 				drawNet();
